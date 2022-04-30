@@ -2,6 +2,7 @@
 from inverter import KostalInverter
 from csv import writer
 from datetime import datetime
+import argparse
 import sqlite3
 import subprocess
 import os
@@ -92,5 +93,19 @@ def plot():
 
 
 if __name__ == "__main__":
-    write()
-    plot()
+    parser = argparse.ArgumentParser(
+        description="Read statistical data from Kostal inverter and plot it"
+    )
+    parser.add_argument(
+        "command",
+        metavar="command",
+        type=str,
+        nargs="?",
+        help="command to execute. `write` or `plot`. Empty for both.",
+    )
+    args = parser.parse_args()
+
+    if not args.command or args.command == "write":
+        write()
+    if not args.command or args.command == "plot":
+        plot()
