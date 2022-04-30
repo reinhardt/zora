@@ -1,0 +1,75 @@
+body {
+    max-width: 1600px;
+    /* margin: 40px auto; */
+    padding: 0 10px;
+    font: 15px/1.5 -apple-system,BlinkMacSystemFont,"avenir next",avenir,"Segoe UI","lucida grande","helvetica neue",helvetica,"Fira Sans",roboto,noto,"Droid Sans",cantarell,oxygen,ubuntu,"franklin gothic medium","century gothic","Liberation Sans",sans-serif;
+}
+
+body h1, body h2, body h3 {
+    line-height: 1.2em;
+}
+a,
+a:visited {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: underline;
+}
+
+.header {
+    font-size: 2em;
+    font-weight: bold;
+    vertical-align: center;
+    margin-bottom: 1em;
+}
+.header a:hover {
+    text-decoration: none;
+}
+.logo {
+    float: left;
+    margin-right: 1em;
+}
+.right {
+    float: right;
+}
+.left {
+    float: left;
+}
+.logo .text {
+    clear: both;
+    text-align: center;
+    width: 2em;
+    line-height: 1em;
+}
+
+@media only screen and (max-width: 767px) {
+}
+
+nav {
+    clear: both;
+}
+nav ul {
+    padding-left: 0;
+}
+nav li {
+    display: inline;
+    list-style: none;
+    padding-right: 1em;
+    font-size: 1.2em;
+}
+nav a {
+    outline: #d33682 solid 1px;
+    padding: 0.25em 0.5em;
+}
+
+span.tag {
+    font-size: 0.6em;
+    float: right;
+    font-style: italic;
+    font-weight: normal;
+}
+hr {
+    width: 1.5em;
+    margin: 1.5em auto;
+}
+
