@@ -2,6 +2,7 @@
 from inverter import KostalInverter
 from csv import writer
 from datetime import datetime
+from datetime import timedelta
 import argparse
 import sqlite3
 import subprocess
@@ -51,7 +52,12 @@ def plot():
 
     inverter = KostalInverter(host=host, port=port, timeout=timeout, unit=unit)
     column_names = ", ".join(inverter.registers)
-    res = cur.execute(f"SELECT Zeit, {column_names} FROM log;")
+    current_time = datetime.now().astimezone()
+    cutoff = current_time - timedelta(hours=72)
+    cutoff_stamp = cutoff.isoformat(timespec="seconds")
+    res = cur.execute(
+        f"SELECT Zeit, {column_names} FROM log WHERE Zeit > '{cutoff_stamp}';"
+    )
     with open(log_path, "w", newline="") as csvfile:
         logwriter = writer(csvfile)
         logwriter.writerows(res.fetchall())
