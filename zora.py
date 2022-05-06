@@ -65,8 +65,12 @@ def plot():
     inverter_fields = list(inverter.registers.keys())
     # registers are 0-indexed but gnuplot is 1-indexed, and Zeit is missing in registers
     idx_production = inverter_fields.index("total_dc_power") + 2
+    idx_own_con_battery = inverter_fields.index("own_consumption_battery") + 2
     idx_own_con_pv = inverter_fields.index("own_consumption_pv") + 2
     idx_own_con_grid = inverter_fields.index("own_consumption_grid") + 2
+    idx_charge_discharge = inverter_fields.index("battery_charge_discharge") + 2
+    idx_grid_feedin = inverter_fields.index("total_active_power_powermeter") + 2
+
     cmd = (
         "gnuplot",
         "-e",
@@ -74,24 +78,12 @@ def plot():
         f"set output '{html_path}/consumption.png'",
         f"{gnuplot_path}/common.gnuplot",
         "-e",
-        f"plot '{log_path}' using 1:{idx_production} with lines ls 103 title 'Produktion', "
-        f"'' using 1:{idx_own_con_pv} with lines ls 102 title 'Verbrauch eigen', "
-        f"'' using 1:{idx_own_con_grid} with lines ls 101 title 'Verbrauch Netz'",
-    )
-    subprocess.run(cmd)
-
-    idx_charge_discharge = inverter_fields.index("battery_charge_discharge") + 2
-    idx_grid_feedin = inverter_fields.index("total_active_power_powermeter") + 2
-    cmd = (
-        "gnuplot",
-        "-e",
-        f"set terminal png size 1440,960 enhanced font 'helvetica'; "
-        f"set output '{html_path}/battery-grid.png'",
-        f"{gnuplot_path}/common.gnuplot",
-        "-e",
-        f"plot '{log_path}' using 1:{idx_production} with lines ls 103 title 'Produktion', "
-        f"'' using 1:{idx_charge_discharge} with lines ls 102 title 'Batterie Ladung', "
-        f"'' using 1:{idx_grid_feedin} with lines ls 101 title 'Einspeisung'",
+        f"plot '{log_path}' using 1:(${idx_own_con_pv} - (${idx_charge_discharge} < 0 ? ${idx_charge_discharge} : 0)) with filledcurves y=0 ls 104 title 'Batterie Ladung', "
+        f"'' using 1:(${idx_own_con_pv} - ${idx_grid_feedin}) with filledcurves y=0 ls 105 title 'Einspeisung', "
+        f"'' using 1:(${idx_own_con_pv} + ${idx_own_con_battery} + ${idx_own_con_grid}) with filledcurves y=0 ls 115 title 'Verbrauch Netz', "
+        f"'' using 1:(${idx_own_con_pv} + ${idx_own_con_battery}) with filledcurves y=0 ls 114 title 'Verbrauch Batterie', "
+        f"'' using 1:(${idx_own_con_pv}) with filledcurves y=0 ls 102 title 'Verbrauch solar', "
+        f"'' using 1:{idx_production} with lines ls 103 title 'Produktion'",
     )
     subprocess.run(cmd)
 
