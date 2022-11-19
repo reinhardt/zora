@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
-from inverter import KostalInverter
-from csv import writer
-from datetime import datetime
-from datetime import timedelta
 import argparse
+import os
 import sqlite3
 import subprocess
-import os
+from csv import writer
+from datetime import datetime, timedelta
+
+from inverter import KostalInverter
 
 host = "192.168.178.45"
 port = 1502
