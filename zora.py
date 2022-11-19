@@ -46,14 +46,14 @@ def write():
     con.close()
 
 
-def plot():
+def plot(days=2):
     con = sqlite3.connect(db_path)
     cur = con.cursor()
 
     inverter = KostalInverter(host=host, port=port, timeout=timeout, unit=unit)
     column_names = ", ".join(inverter.registers)
     current_time = datetime.now().astimezone()
-    cutoff = current_time - timedelta(hours=72)
+    cutoff = current_time - timedelta(days=days)
     cutoff_stamp = cutoff.isoformat(timespec="seconds")
     res = cur.execute(
         f"SELECT Zeit, {column_names} FROM log WHERE Zeit > '{cutoff_stamp}';"
