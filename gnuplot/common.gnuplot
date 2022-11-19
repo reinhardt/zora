@@ -3,7 +3,7 @@ set xdata time
 set timefmt "%Y-%m-%dT%H:%M:%S%z"
 set format x "%d.%m. %H:%M:%S"
 
-set key autotitle columnhead
+set key left
 set ylabel 'Leistung (W)'
 set xlabel 'Zeit'
 set xtics rotate
