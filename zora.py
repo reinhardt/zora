@@ -79,7 +79,7 @@ def plot(days=2):
         f"{gnuplot_path}/common.gnuplot",
         "-e",
         f"plot '{log_path}' using 1:(${idx_own_con_pv} - (${idx_charge_discharge} < 0 ? ${idx_charge_discharge} : 0)) with filledcurves y=0 ls 104 title 'Batterie Ladung', "
-        f"'' using 1:(${idx_own_con_pv} - ${idx_grid_feedin}) with filledcurves y=0 ls 105 title 'Einspeisung', "
+        f"'' using 1:(${idx_own_con_pv} - (${idx_grid_feedin} < 0 ? ${idx_grid_feedin} : 0)) with filledcurves y=0 ls 105 title 'Einspeisung', "
         f"'' using 1:(${idx_own_con_pv} + ${idx_own_con_battery} + ${idx_own_con_grid}) with filledcurves y=0 ls 115 title 'Verbrauch Netz', "
         f"'' using 1:(${idx_own_con_pv} + ${idx_own_con_battery}) with filledcurves y=0 ls 114 title 'Verbrauch Batterie', "
         f"'' using 1:(${idx_own_con_pv}) with filledcurves y=0 ls 102 title 'Verbrauch solar', "
